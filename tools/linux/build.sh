@@ -1,26 +1,5 @@
 #!/bin/bash
 
-COMMON_COMPILER_FLAGS=(
-    "-g"
-    "-gcodeview"
-    "-fno-rtti"
-    "-O0"
-    "-Werror"
-    "-Wall"
-    "-Wno-unused-variable"
-    "-Wno-microsoft-anon-tag"
-    "-Wno-writable-strings"
-    "-Wno-missing-braces"
-    "-Wno-unused-function"
-    "-nodefaultlibs");
-
-COMMON_LINKER_FLAGS=(
-    '-pthread'
-    '-ldl'
-    '-lGL'
-    '-lX11'
-    '-lc');
-
 BINARY_NAME='geometry';
 BINARY_NAME_SO="${BINARY_NAME}.so";
 
