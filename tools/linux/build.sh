@@ -74,23 +74,44 @@ function build()
 
     local clang_executable="$(which -a clang++ | head -n 1)";
     local -a exercises=($(find "$notebook_dir" -type f -mmin "-$LAST_EDIT_MINUTES"));
+    local compile_commands_filename='compile_commands.json';
+
+    local exercise_compile_commands='';
     local exercise_name='';
     local exercise_name_binary='';
+    local compile_commands='';
     local verbose='-v';
+
+    printf -v compile_commands -- "%s/%s" \
+        "$working_dir"                    \
+        "$compile_commands_filename";
 
     [ -n "$build_all" ] && \
         exercises=($(find "$notebook_dir" -type f));
+
+    echo "[" > "$compile_commands";
 
     (
         cd "$working_dir" || exit 1;
 
         for exercise_name in "${exercises[@]}"; do
             exercise_name_binary="$(basename "${exercise_name}" '.cpp')";
+            printf -v exercise_compile_commands -- "%s/%s_%s" \
+                "$working_dir"                                \
+                "$exercise_name_binary"                       \
+                "$compile_commands_filename";
+
             "$clang_executable" "$exercise_name" \
+                -MJ "$exercise_compile_commands" \
                 -o "$exercise_name_binary"       \
                 "$verbose" || exit 2;
+
+            cat "$exercise_compile_commands" >> "$compile_commands";
         done
     ) || return $?;
+
+    sed -i '${s/,$//}' "$compile_commands" || return $?;
+    echo "]" >> "$compile_commands";
 
     return 0;
 }
