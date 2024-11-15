@@ -10,6 +10,8 @@ DEPENDENCIES_URL_BASE='http://www.math.bas.bg/bantchev/';
 DEPENDENCIES_URL_VECTA="${DEPENDENCIES_URL_BASE}/vecta/${DEPENDENCY_NAME_VECTA}";
 DEPENDENCIES_URL_SP="${DEPENDENCIES_URL_BASE}/sp/${DEPENDENCY_NAME_SP}";
 
+LAST_EDIT_MINUTES="30";
+
 function is-in-git-repo()
 {
     local directory="$1"; shift 1;
@@ -68,12 +70,16 @@ function build()
 {
     local working_dir="$1";  shift 1;
     local notebook_dir="$1"; shift 1;
+    local build_all="$1";    shift 1;
 
     local clang_executable="$(which -a clang++ | head -n 1)";
-    local -a exercises=($(find "$notebook_dir" -type f -print));
+    local -a exercises=($(find "$notebook_dir" -type f -mmin "-$LAST_EDIT_MINUTES"));
     local exercise_name='';
     local exercise_name_binary='';
     local verbose='-v';
+
+    [ -n "$build_all" ] && \
+        exercises=($(find "$notebook_dir" -type f));
 
     (
         cd "$working_dir" || exit 1;
@@ -91,6 +97,8 @@ function build()
 
 function main()
 {
+    local build_all="$1"; shift 1;
+
     local current_dir="$(pwd)";
 
     local git_root='';
@@ -120,9 +128,9 @@ function main()
     rm -rvf "$working_dir";
     mkdir -pv "$working_dir";
 
-    build "$working_dir" "$notebook_dir" || return 4;
+    build "$working_dir" "$notebook_dir" "$build_all" || return 4;
 
     return 0;
 }
 
-main || exit $?;
+main "$@" || exit $?;
