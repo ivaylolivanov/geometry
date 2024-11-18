@@ -305,6 +305,12 @@ static const char* SP_COLOR_STRINGS[] =
     "yellowgreen"
 };
 
+
+void Move(Point2D coordinate_center)
+{
+    printf("move %f %f\n", coordinate_center.x, coordinate_center.y);
+}
+
 void SetUnit(float unit)
 {
     printf("unit %f\n", unit);
