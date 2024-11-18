@@ -24,9 +24,12 @@ using namespace std;
   * DONE Is P an outer Point for the triangle ABC - Method of excluding
  */
 
-void ReadPoint(Point2D* p)
 {
-    printf("New point:\n");
+void ReadPoint(Point2D* p, bool stdout)
+{
+    if (stdout)
+        printf("New point:\n");
+
     scanf("%f", &p->x);
     scanf("%f", &p->y);
 }
@@ -120,28 +123,10 @@ int main(int arguments_count, char** arguments)
     }
 
     Point2D a, b, c, p;
-    ReadPoint(&a);
-    ReadPoint(&b);
-    ReadPoint(&c);
-    ReadPoint(&p);
-
-    // a.x = 1;
-    // a.y = 1.75f;
-
-    // b.x = 6.5f;
-    // b.y = 2;
-
-    // c.x = 2;
-    // c.y = 6;
-    // Outter
-    // p.x = 8;    p.y = 7;
-
-    // Inner
-    // p.x = 3.56;    p.y = 3.38;
-
-    // On AC
-    // p.x = 1.2220385014572f;
-    // p.y = 2.693663631193f;
+    ReadPoint(&a, cmd.Format == OutputFormat_None);
+    ReadPoint(&b, cmd.Format == OutputFormat_None);
+    ReadPoint(&c, cmd.Format == OutputFormat_None);
+    ReadPoint(&p, cmd.Format == OutputFormat_None);
 
     if (IsTriangleInvalid(a, b, c))
     {
