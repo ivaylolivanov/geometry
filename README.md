@@ -52,7 +52,7 @@ The repository includes a `build.sh` script for compiling solutions. It has two 
 - **Newest files Compilation**: By default, only files modified in the last 30 minutes are compiled.
 - **Full Compilation**: Pass any argument to the script to compile all files.
 
-**Usage**:
+**Building**:
 ```bash
 cd tools/linux
 ./build.sh            # Newest files Compilation
