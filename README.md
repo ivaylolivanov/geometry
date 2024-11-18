@@ -2,7 +2,7 @@
 
 This is a repository meant for the assignments, given in the subject of **Computational Geometry**, in the masters degree **Computer graphics**.\
 Its main purposes are:
- - public study
+ - public learning
  - notes keeping
  - knowledge sharing
 
