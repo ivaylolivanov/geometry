@@ -16,7 +16,7 @@ void PrintPoint(Point2D a, char* color)
     printf("%f %f\n", a.x, a.y);
 }
 
-void PrintLine(Point2D a, Point2D b, char* color, float width = 2)
+void PrintLine(Point2D a, Point2D b, char* color, float width = 1)
 {
     printf("width %f\n", width);
     printf("lines\n");
