@@ -81,6 +81,7 @@ function build()
     local exercise_name_binary='';
     local compile_commands='';
     local verbose='-v';
+    verbose='';
 
     printf -v compile_commands -- "%s/%s" \
         "$working_dir"                    \
