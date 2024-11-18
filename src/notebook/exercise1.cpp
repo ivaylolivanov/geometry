@@ -45,15 +45,28 @@ void ReadPoint(Point2D* p, bool stdout)
     scanf("%f", &p->y);
 }
 
-bool IsPointOnLine(Point2D p, Point2D line_point1, Point2D line_point2)
+bool ArePointsCollinear(Point2D p1, Point2D p2, Point2D p3)
 {
     bool result = false;
 
-    V2r line_vector = line_point2 - line_point1;
-    V2r p_line_point1 = p - line_point1;
-    float cross_product = line_vector ^ p_line_point1;
-
+    V2r p1p2 = p2 - p1;
+    V2r p1p3 = p3 - p1;
+    float cross_product = p1p2 ^ p1p3;
     result = cross_product == 0;
+
+    return result;
+}
+
+bool IsPointOnSegment(Point2D p, Point2D segment_a, Point2D segment_b)
+{
+    bool result = false;
+
+    bool are_collinear = ArePointsCollinear(p, segment_a, segment_b);
+    result = are_collinear
+        && (p.x > Min(segment_a.x, segment_b.x))
+        && (p.x < Max(segment_a.x, segment_b.x))
+        && (p.y > Min(segment_a.y, segment_b.y))
+        && (p.y < Max(segment_a.y, segment_b.y));
 
     return result;
 }
@@ -177,7 +190,7 @@ int main(int arguments_count, char** arguments)
         return 0;
     }
 
-    if (IsPointOnLine(p, a, b))
+    if (IsPointOnSegment(p, a, b))
     {
         if (cmd.Format == OutputFormat_None)
             printf("P(%.2f, %.2f) %s A(%.2f, %.2f) and B(%.2f, %.2f)\n!",
@@ -186,7 +199,7 @@ int main(int arguments_count, char** arguments)
         return 0;
     }
 
-    if (IsPointOnLine(p, b, c))
+    if (IsPointOnSegment(p, b, c))
     {
         if (cmd.Format == OutputFormat_None)
             printf("P(%.2f, %.2f) %s A(%.2f, %.2f) and B(%.2f, %.2f)\n!",
@@ -195,7 +208,7 @@ int main(int arguments_count, char** arguments)
         return 0;
     }
 
-    if (IsPointOnLine(p, c, a))
+    if (IsPointOnSegment(p, c, a))
     {
         if (cmd.Format == OutputFormat_None)
             printf("P(%.2f, %.2f) %s C(%.2f, %.2f) and A(%.2f, %.2f)\n!",
