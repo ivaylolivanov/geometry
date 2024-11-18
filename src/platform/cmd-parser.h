@@ -1,9 +1,4 @@
 #include <string.h>
-
-#define HELP_MESSAGE \
-    "USAGE: <binary-file> -f sp [-h]\n\
-  -h    Prints this message\n\
-  -f    Expects value 'sp', otherwise prints this message\n"
 #include <cctype>
 
 enum OutputFormat
@@ -16,14 +11,21 @@ struct CommandLine
 {
     bool Help;
     OutputFormat Format;
-    char* HelpMessage = HELP_MESSAGE;
+    const char* HelpMessage;
 };
+
+static const char HELP_MESSAGE[] =
+    "USAGE: <binary-file> -f sp [-h]\n"
+    "  -h    Prints this message\n"
+    "  -f    Expects value 'sp', otherwise prints this message\n";
 
 // TODO: Implement longer option name parsing!
 void ParseCmd(int arguments_count, char** arguments, CommandLine* cmd)
 {
     char short_option_help   = 'h';
     char short_option_format = 'f';
+
+    cmd->HelpMessage = HELP_MESSAGE;
 
     for (int i = 1; i < arguments_count; i += 2)
     {
