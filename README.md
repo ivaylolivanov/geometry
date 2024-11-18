@@ -1,7 +1,7 @@
 # Computational Geometry
 
 This is a repository meant for the assignments, given in the subject of **Computational Geometry**, in the masters degree **Computer graphics**.\
-Its main purpose are:
+Its main purposes are:
  - public study
  - notes keeping
  - knowledge sharing
