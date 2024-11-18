@@ -4,6 +4,7 @@
     "USAGE: <binary-file> -f sp [-h]\n\
   -h    Prints this message\n\
   -f    Expects value 'sp', otherwise prints this message\n"
+#include <cctype>
 
 enum OutputFormat
 {
