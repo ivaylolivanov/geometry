@@ -73,7 +73,7 @@ function build()
     local build_all="$1";    shift 1;
 
     local clang_executable="$(which -a clang++ | head -n 1)";
-    local -a exercises=($(find "$notebook_dir" -type f -mmin "-$LAST_EDIT_MINUTES"));
+    local -a exercises=($(find "$notebook_dir" -type f -iname "*.cpp" -mmin "-$LAST_EDIT_MINUTES"));
     local compile_commands_filename='compile_commands.json';
 
     local exercise_compile_commands='';
