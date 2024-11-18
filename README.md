@@ -8,32 +8,6 @@ Its main purposes are:
 
 ---
 
-## Repository Structure
-<ul>
-    <li>build</li>
-    <li>dep</li>
-    <ul>
-        <li>sp</li>
-        <li>vecta.h</li>
-    </ul>
-    <li>README.md</li>
-    <li>src</li>
-    <li>notebook</li>
-    <ul>
-        <li>inputs</li>
-        <li>platform</li>
-        <ul>
-            <li>linux</li>
-        </ul>
-    </ul>
-    <li>tools</li>
-    <ul>
-        <li>linux</li>
-    </ul>
-</ul>
-
----
-
 ## Dependencies
 
 1. **Vecta Library**
