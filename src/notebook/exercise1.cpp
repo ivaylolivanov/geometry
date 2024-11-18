@@ -24,7 +24,18 @@ using namespace std;
   * DONE Is P an outer Point for the triangle ABC - Method of excluding
  */
 
+float Min(float a, float b)
 {
+    float result = a > b ? b : a;
+    return result;
+}
+
+float Max(float a, float b)
+{
+    float result = a > b ? a : b;
+    return result;
+}
+
 void ReadPoint(Point2D* p, bool stdout)
 {
     if (stdout)
