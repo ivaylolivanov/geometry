@@ -316,15 +316,16 @@ void SetUnit(float unit)
     printf("unit %.2f\n", unit);
 }
 
-void PrintPoint(Point2D a, char* color)
+void PrintPoint(Point2D a, SpColor color)
 {
-    printf("colour %s\n", color);
+    printf("colour %s\n", SP_COLOR_STRINGS[color]);
     printf("points\n");
     printf("%.2f %.2f\n", a.x, a.y);
 }
 
-void PrintLine(Point2D a, Point2D b, char* color, float width = 1)
+void PrintLine(Point2D a, Point2D b, SpColor color, float width = 1)
 {
+    printf("colour %s\n", SP_COLOR_STRINGS[color]);
     printf("width %.2f\n", width);
     printf("lines\n");
     printf("%.2f %.2f %.2f %.f\n", a.x, a.y, b.x, b.y);

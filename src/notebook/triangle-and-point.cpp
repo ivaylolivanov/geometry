@@ -236,14 +236,14 @@ int main(int arguments_count, char** arguments)
 
         SetUnit(2);
 
-        PrintPoint(a, "black");
-        PrintPoint(b, "black");
-        PrintPoint(c, "black");
-        PrintPoint(p, "green");
+        PrintPoint(a, SpColor_Black);
+        PrintPoint(b, SpColor_Black);
+        PrintPoint(c, SpColor_Black);
+        PrintPoint(p, SpColor_Orange);
 
-        PrintLine(a, b, "green");
-        PrintLine(b, c, "green");
-        PrintLine(c, a, "green");
+        PrintLine(a, b, SpColor_Green);
+        PrintLine(b, c, SpColor_Green);
+        PrintLine(c, a, SpColor_Green);
     }
 
     return 0;
