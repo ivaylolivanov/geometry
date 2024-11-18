@@ -2,7 +2,6 @@
 #include "../dep/vecta.h"
 #include "./notebook/types.h"
 
-// TODO: Optimize to not print the color each time
 enum SpColor
 {
     SpColor_AliceBlue            = 0,
@@ -316,6 +315,8 @@ void SetUnit(float unit)
     printf("unit %.2f\n", unit);
 }
 
+// TODO: Optimize to not print the color each time
+// TODO: Optimize to not print the command each time
 void PrintPoint(Point2D a, SpColor color)
 {
     printf("colour %s\n", SP_COLOR_STRINGS[color]);
