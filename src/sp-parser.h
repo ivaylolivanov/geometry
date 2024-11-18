@@ -313,19 +313,19 @@ void Move(Point2D coordinate_center)
 
 void SetUnit(float unit)
 {
-    printf("unit %f\n", unit);
+    printf("unit %.2f\n", unit);
 }
 
 void PrintPoint(Point2D a, char* color)
 {
     printf("colour %s\n", color);
     printf("points\n");
-    printf("%f %f\n", a.x, a.y);
+    printf("%.2f %.2f\n", a.x, a.y);
 }
 
 void PrintLine(Point2D a, Point2D b, char* color, float width = 1)
 {
-    printf("width %f\n", width);
+    printf("width %.2f\n", width);
     printf("lines\n");
-    printf("%f %f %f %f\n", a.x, a.y, b.x, b.y);
+    printf("%.2f %.2f %.2f %.f\n", a.x, a.y, b.x, b.y);
 }
