@@ -57,3 +57,9 @@ The repository includes a `build.sh` script for compiling solutions. It has two 
 cd tools/linux
 ./build.sh            # Newest files Compilation
 ./build.sh all        # Full build
+
+**Usage**
+```bash
+cat src/notebook/inputs/triangle-and-point/valid-triangle-on-side-segment.txt |
+    ./build/triangle-and-point -f sp                                          |
+    ./dep/sp svg > build/test.svg
