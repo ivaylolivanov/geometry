@@ -4,6 +4,7 @@ build
 # IDEs directories
 .vs
 .idea
+.cache
 
 # Prerequisites
 *.d
