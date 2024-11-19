@@ -79,11 +79,11 @@ bool PointsListContains(PointsList* list, const Point2D& point)
     return result;
 }
 
-bool IsMoreSuitablePoint(const Point2D& a, const Point2D& w)
+bool IsMoreToTheBottom(const Point2D& a, const Point2D& w)
 {
     bool result = false;
 
-    result = (a.x >= w.x) && (a.y >= w.y);
+    result = a.y >= w.y;
 
     return result;
 }
@@ -119,7 +119,7 @@ int ReadStdin(PointsList* all_points)
             PointsListAdd(all_points, temp_point);
 
             int current_index = all_points->Count - 1;
-            if (IsMoreSuitablePoint(current_start_point, temp_point))
+            if (IsMoreToTheBottom(current_start_point, temp_point))
             {
                 start_point_index = current_index;
                 current_start_point = temp_point;
@@ -132,14 +132,31 @@ int ReadStdin(PointsList* all_points)
     return start_point_index;
 }
 
-int GetNextSuitablePoint(PointsList* points, int visited[], int current_point_index)
+int GetNextSuitablePoint(PointsList* points, int index_current)
 {
-    Point2D current_point = PointsListGetAt(points, current_point_index);
+    Point2D point_current = PointsListGetAt(points, index_current);
+    int index_guess = (index_current + 1) % points->Count;
+    Point2D point_guess = PointsListGetAt(points, index_guess);
+    for (int i = 0; i < points->Count; ++i)
+    {
+        Point2D point_checking = PointsListGetAt(points, i);
+        V2r v1 = point_guess - point_current;
+        V2r v2 = point_checking - point_current;
+        float v1_x_v2 = v1 ^ v2;
 
-    return 0;
+        bool is_better = (v1_x_v2 < 0)
+            || ((v1_x_v2 == 0) && (vecta::len(v2) > vecta::len(v1)));
+        if (is_better)
+        {
+            index_guess = i;
+            point_guess = PointsListGetAt(points, index_guess);
+        }
+    }
+
+    return index_guess;
 }
 
-void PointsListPrint(PointsList* points, OutputFormat format, int start_index)
+void PointsListPrint(PointsList* points, int start_index, OutputFormat format)
 {
     if (format == OutputFormat_SP)
         SetUnit(1);
@@ -150,7 +167,7 @@ void PointsListPrint(PointsList* points, OutputFormat format, int start_index)
 
         if (format == OutputFormat_None)
         {
-            printf("(%f, %f)\n", point.x, point.y);
+            printf("(%7.2f; %7.2f)\n", point.x, point.y);
         }
         else if (format == OutputFormat_SP)
         {
@@ -161,6 +178,34 @@ void PointsListPrint(PointsList* points, OutputFormat format, int start_index)
             PrintPoint(point, color);
         }
     }
+}
+
+void CreateHull(PointsList* points, int hull[], int index_start)
+{
+    int index_current = index_start;
+    while (!hull[index_current])
+    {
+        int index_next = GetNextSuitablePoint(points, index_current);
+        hull[index_current] = index_next;
+        index_current = index_next;
+    }
+}
+
+void PrintHull(PointsList* points, int hull[], int index_start,
+    OutputFormat format)
+{
+    int index_traverse = index_start;
+    do
+    {
+        Point2D a = PointsListGetAt(points, index_traverse);
+        Point2D b = PointsListGetAt(points, hull[index_traverse]);
+        index_traverse = hull[index_traverse];
+
+        if (format == OutputFormat_None)
+            printf("(%.2f; %.2f) -> (%.2f; %.2f)\n", a.x, a.y, b.x, b.y);
+        else
+            PrintLine(a, b, SpColor_BlueViolet);
+    } while (index_start != index_traverse);
 }
 
 int main(int arguments_count, char** arguments)
@@ -174,12 +219,16 @@ int main(int arguments_count, char** arguments)
     }
 
     PointsList points = {};
-    int start_index = ReadStdin(&points);
-    int visited[points.Count];
+    int index_start = ReadStdin(&points);
+    int hull[points.Count - 1];
+    for (int i = 0; i < points.Count; ++i)
+        hull[i] = 0;
 
-    // start_index = GetNextSuitablePoint(&points, visited, start_index);
+    CreateHull(&points, hull, index_start);
+    PointsListPrint(&points, index_start, cmd.Format);
+    PrintHull(&points, hull, index_start, cmd.Format);
 
-    PointsListPrint(&points, cmd.Format, start_index);
+    PointsListFreeMemory(&points);
 
     return 0;
 }
