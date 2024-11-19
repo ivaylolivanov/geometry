@@ -231,8 +231,6 @@ int main(int arguments_count, char** arguments)
 
     if (cmd.Format == OutputFormat_SP)
     {
-        printf("\n\n");
-
         SetUnit(2);
 
         PrintPoint(a, SpColor_Black);
