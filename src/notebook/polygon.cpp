@@ -68,7 +68,37 @@ bool GetIntersection(Point2D a, Point2D b, Point2D c, Point2D d,
     return true;
 }
 
-int main(int arguments_count, char** arguments)
+void PrintSpFormat(Point2D &a, Point2D &b, Point2D &c, Point2D &d)
+{
+    SetUnit(2);
+    PrintPoint(a, SpColor_Orange);
+    PrintPoint(b, SpColor_Orange);
+    PrintPoint(c, SpColor_Orange);
+    PrintPoint(d, SpColor_Orange);
+
+    PrintLine(a, b, SpColor_Gray);
+    PrintLine(b, c, SpColor_Gray);
+    PrintLine(c, d, SpColor_Gray);
+    PrintLine(d, a, SpColor_Gray);
+}
+
+float CalculateSelfIntersectingPolygon(Point2D &a, Point2D &b, Point2D &c, Point2D &d)
+{
+    float area = 0;
+
+    Point2D i = {};
+    bool are_intersecting = GetIntersection(a, b, c, d, &i);
+    if (are_intersecting)
+    {
+        float adi = fabs(0.5f * ((d - a) ^ (i - d)));
+        float ibc = fabs(0.5f * ((b - i) ^ (c - b)));
+        area = adi + ibc;
+    }
+
+    return area;
+}
+
+int main(int arguments_count, char **arguments)
 {
     CommandLine cmd = {};
     ParseCmd(arguments_count, arguments, &cmd);
@@ -98,44 +128,19 @@ int main(int arguments_count, char** arguments)
     V2r dc = c - d;
     float bdc = bd ^ dc;
 
-    bool ad_crosses_bd = (((acd > 0) && (acb < 0)) || ((acd < 0) && (acb > 0)))
+    bool ac_crosses_bd = (((acd > 0) && (acb < 0)) || ((acd < 0) && (acb > 0)))
         && (((bda > 0) && (bdc < 0)) || ((bda < 0) && (bdc > 0)));
 
     float area = 0;
-    if (ad_crosses_bd)
-    {
+    if (ac_crosses_bd)
         area = 0.5f * (ac ^ bd);
-    }
-    // The polygon is self intersecting
     else
-    {
-        Point2D i = {};
-        bool are_intersecting = GetIntersection(a, b, c, d, &i);
-        if (are_intersecting)
-        {
-            float adi = fabs(0.5f * ((d - a) ^ (i - d)));
-            float ibc = fabs(0.5f * ((b - i) ^ (c - b)));
-            area = adi + ibc;
-        }
-    }
+        area = CalculateSelfIntersectingPolygon(a, b, c, d);
 
     if (cmd.Format == OutputFormat_SP)
-    {
-        SetUnit(2);
-        PrintPoint(a, SpColor_Orange);
-        PrintPoint(b, SpColor_Orange);
-        PrintPoint(c, SpColor_Orange);
-        PrintPoint(d, SpColor_Orange);
-
-        PrintLine(a, b, SpColor_Gray);
-        PrintLine(b, c, SpColor_Gray);
-        PrintLine(c, d, SpColor_Gray);
-        PrintLine(d, a, SpColor_Gray);
-    }
+        PrintSpFormat(a, b, c, d);
     else
-    {
         printf("%f\n", area);
-    }
 
     return 0;
 }
