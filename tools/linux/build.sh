@@ -88,7 +88,7 @@ function build()
         "$compile_commands_filename";
 
     [ -n "$build_all" ] && \
-        exercises=($(find "$notebook_dir" -type f));
+        exercises=($(find "$notebook_dir" -type f -iname "*.cpp"));
 
     echo "[" > "$compile_commands";
 
