@@ -38,3 +38,6 @@ build
 *.exe
 *.out
 *.app
+
+.clang-format
+compile_commands.json
